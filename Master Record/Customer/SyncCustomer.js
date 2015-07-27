@@ -17,6 +17,19 @@
 */
 function SyncCustomer(type){
 	try {
+		//New Change File git1
+        var pr1 = r.getFieldValue('total');
+        //New Change File End git1
+        
+<<<<<<< HEAD
+        //Vab Change
+=======
+        //Pr Change
+>>>>>>> branch 'Tax-Project' of https://github.com/mauxilia/Splunk-NetSuite.git
+        
+        //New Change File git2
+        var pr2 = r.getFieldValue('total');
+        //New Change File End git2
  
     /*Checking the execution type. The script should run on 'Create' and 'Edit' only*/
 	if (type == 'edit')
@@ -24,6 +37,11 @@ function SyncCustomer(type){
 	var oldrec = nlapiGetOldRecord();
 	var newrec = nlapiGetNewRecord();
 	var oldcreditlimit = oldrec.getFieldValue('creditlimit');
+	
+	//New Change File git
+            var Pr = r.getFieldValue('total');
+        //New Change File End git
+	
 	if (oldcreditlimit == null || oldcreditlimit == '')
 	{
 	oldcreditlimit = 0;
