@@ -20,6 +20,10 @@ function SyncCustomer(type){
 		//New Change File git1
         var pr1 = r.getFieldValue('total');
         //New Change File End git1
+        
+        //New Change File git2
+        var pr2 = r.getFieldValue('total');
+        //New Change File End git2
  
     /*Checking the execution type. The script should run on 'Create' and 'Edit' only*/
 	if (type == 'edit')
