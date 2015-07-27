@@ -21,11 +21,14 @@ function SyncCustomer(type){
         var pr1 = r.getFieldValue('total');
         //New Change File End git1
         
-<<<<<<< HEAD
+
+       
+
+//pr1 change
         //Vab Change
-=======
+
         //Pr Change
->>>>>>> branch 'Tax-Project' of https://github.com/mauxilia/Splunk-NetSuite.git
+
         
         //New Change File git2
         var pr2 = r.getFieldValue('total');
