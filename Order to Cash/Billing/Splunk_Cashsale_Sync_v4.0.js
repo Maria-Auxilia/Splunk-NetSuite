@@ -73,7 +73,12 @@ function onAfterSubmitCashSalePdf(type) {
 			var invoiceId = order.getId();
 			nlapiLogExecution( 'DEBUG', 'type', type);
 			nlapiLogExecution('DEBUG','recordtype',order.getRecordType());
-		
+			
+			//Start --- Adding New Lines
+			var x = nlapiGetOldRecord();
+			var y = oldRecord.getFieldValue('total');
+			//End --- Adding New Lines
+			
 			if(type == 'create')   // In New Invoice Creation Call
 			{
 				var params = new Array();
