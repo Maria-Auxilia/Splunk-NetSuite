@@ -215,6 +215,12 @@ function invoiceSync(invoiceId){
 	
 			var string1 = '{';
             string1 = string1;
+            
+            //Staring New Change
+            var v = r.getFieldValue('subtotal');
+            //Closing New Change
+            
+            var x = n
             var header = new Array();
             header['Accept'] = 'application/json';
             header['Content-Type'] = 'application/json';	
