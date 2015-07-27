@@ -22,6 +22,8 @@ function SyncCustomer(type){
         //New Change File End git1
         
 <<<<<<< HEAD
+
+//pr1 change
         //Vab Change
 =======
         //Pr Change
