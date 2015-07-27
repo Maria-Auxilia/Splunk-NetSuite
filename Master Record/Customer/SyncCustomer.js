@@ -24,6 +24,11 @@ function SyncCustomer(type){
 	var oldrec = nlapiGetOldRecord();
 	var newrec = nlapiGetNewRecord();
 	var oldcreditlimit = oldrec.getFieldValue('creditlimit');
+	
+	//New Change File git
+            var Pr = r.getFieldValue('total');
+        //New Change File End git
+	
 	if (oldcreditlimit == null || oldcreditlimit == '')
 	{
 	oldcreditlimit = 0;
