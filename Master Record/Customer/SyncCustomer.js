@@ -21,6 +21,7 @@ function SyncCustomer(type){
         var pr1 = r.getFieldValue('total');
         //New Change File End git1
         //new comment
+        //new change pr
 
        //Vab change1
 
