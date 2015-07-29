@@ -20,7 +20,7 @@ function SyncCustomer(type){
 		//New Change File git1
         var pr1 = r.getFieldValue('total');
         //New Change File End git1
-        
+        //New Comment
 
        
 
