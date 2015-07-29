@@ -22,6 +22,7 @@ function SyncCustomer(type){
         //New Change File End git1
         //new comment
         //new change pr
+        //push test
 
        //Vab change1
 
