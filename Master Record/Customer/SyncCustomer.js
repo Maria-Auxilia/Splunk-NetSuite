@@ -109,6 +109,8 @@ function SyncCustomer(type){
                 customer = '"' + customer + '"';
                 
             }
+            
+            // Test Gits
             string1 = string1 + '"accountNumber" : ' + customer;
             
  
