@@ -72,6 +72,10 @@ function SyncCustomer(type){
     
 	}
 	
+	/*---Git Test-----*/
+	var x = 1234;
+	/*-----Git Test End------*/
+	
     if ((type != 'delete') && ((type == 'create') || ((type == 'edit' || type == 'xedit') && (oldcreditlimit != newcreditlimit)) || ((type == 'edit' || type == 'xedit') && (oldcredithold != newcredithold)) || ((type == 'edit' || type == 'xedit') && (oldcollectionnotes != newcollectionnotes)))){
 			
 	 /*----Start------------Creating JSON Object to be sent to Cloudhub------------Start-----*/
