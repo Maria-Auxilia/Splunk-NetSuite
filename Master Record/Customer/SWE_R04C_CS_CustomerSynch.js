@@ -26,7 +26,7 @@ function main_ClientScript() {
     /*------End------*/
     
     var stCurCustomerId = nlapiGetFieldValue('id');
-    
+  //Git Hub Test  
     /*---New Change 7/30----*/
     
  var y = pqr;
