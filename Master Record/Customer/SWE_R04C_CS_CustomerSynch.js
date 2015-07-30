@@ -26,6 +26,11 @@ function main_ClientScript() {
     /*------End------*/
     
     var stCurCustomerId = nlapiGetFieldValue('id');
+  //Git Hub Test  
+    /*---New Change 7/30----*/
+    
+ var y = pqr;
+ /*-----End-----*/
     
     var params = '';        
     params += "&custscript_cust_to_process="+ encodeURI( stCurCustomerId );
