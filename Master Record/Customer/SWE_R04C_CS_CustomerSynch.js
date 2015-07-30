@@ -21,6 +21,9 @@ function main_ClientScript() {
     if (!confirm('Please make sure to save any changes made before proceeding. Do you want to continue?')) {
         return;
     }
+    /*---Changes as a part of Tax project-----*/
+    var x =abc;
+    /*------End------*/
     
     var stCurCustomerId = nlapiGetFieldValue('id');
     
