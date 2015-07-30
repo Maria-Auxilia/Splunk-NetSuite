@@ -27,6 +27,11 @@ function main_ClientScript() {
     
     var stCurCustomerId = nlapiGetFieldValue('id');
     
+    /*---New Change 7/30----*/
+    
+ var y = pqr;
+ /*-----End-----*/
+    
     var params = '';        
     params += "&custscript_cust_to_process="+ encodeURI( stCurCustomerId );
 
