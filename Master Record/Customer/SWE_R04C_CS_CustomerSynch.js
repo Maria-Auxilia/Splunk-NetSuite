@@ -26,7 +26,7 @@ function main_ClientScript() {
     /*------End------*/
     
     var stCurCustomerId = nlapiGetFieldValue('id');
-    
+  //Git Hub Test  
     var params = '';        
     params += "&custscript_cust_to_process="+ encodeURI( stCurCustomerId );
 
