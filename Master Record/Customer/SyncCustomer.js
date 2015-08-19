@@ -23,7 +23,8 @@ function SyncCustomer(type){
         //New Comment
 //Changes to Git through Eclipse
 // Changes on Git direct
-//Another Change ST1
+        //ANother Change Eclipse test ST 2
+
         /*------New Change 8/19-------*/
         
        var test = 1234
