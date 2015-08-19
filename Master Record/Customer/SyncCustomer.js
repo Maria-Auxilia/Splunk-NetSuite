@@ -22,8 +22,12 @@ function SyncCustomer(type){
         //New Change File End git1
         //New Comment
 
+        /*------New Change 8/19-------*/
+        
+       var test = 1234
        
-
+       /*------End New Change 8/19------*/
+       
 //pr1 change
         //Vab Change
 
