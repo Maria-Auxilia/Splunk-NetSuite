@@ -23,7 +23,9 @@ function SyncCustomer(type){
         //New Comment
 //Changes to Git through Eclipse
 // Changes on Git direct
-        //ANother Change Eclipse
+        //ANother Change Eclipse test ST 2
+        //Vab Change GitHub
+
         //Vab Change Eclipse
         /*------New Change 8/19-------*/
         
