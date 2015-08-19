@@ -21,7 +21,7 @@ function SyncCustomer(type){
         var pr1 = r.getFieldValue('total');
         //New Change File End git1
         //New Comment
-
+//Changes to Git through Eclipse
         /*------New Change 8/19-------*/
         
        var test = 1234
