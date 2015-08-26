@@ -1007,22 +1007,16 @@ function getperiodofSubsidiary(rec,year,period,custVBId,perintid)
 			year = parseInt(year+1);
 		}
 		var periodname = monthNames[monthIndex] +' '+ year;
-		periodinternalid = parseInt(perintid) + parseInt(1);
 		var filter2 = new Array();
-		filter2[0] = new nlobjSearchFilter('internalid',null,'is',periodinternalid);
-		var validaccountingperiod = nlapiSearchRecord('accountingperiod',null,filter2);
-		if (validaccountingperiod != null || validaccountingperiod != '')
+        filter2[0] = new nlobjSearchFilter('periodname',null,'is',periodname);
+		/*-------New Change as per Enhancement#---------*/
+        var newperiodid = nlapiSearchRecord('accountingperiod','customsearch_spk_act_per_search_apapprov',filter2);
+        for (var p in newperiodid)
 			{
-			nlapiLogExecution('DEBUG', 'periodname', periodname); 
-			nlapiLogExecution('DEBUG', 'periodinternalid', periodinternalid);
+			periodinternalid = newperiodid[p].getValue('internalid');
 			getperiodofSubsidiary(rec,year,periodname,custVBId,periodinternalid);	
 			}
-		else
-			{
-			periodinternalid = parseInt(periodinternalid) + parseInt(1);
-			nlapiLogExecution('DEBUG', 'periodinternalidelse', periodinternalid);
-			getperiodofSubsidiary(rec,year,periodname,custVBId,periodinternalid);
-			}
+		/*-----End of New Change as per Enhancement#-----*/
 	}	
 }
 
