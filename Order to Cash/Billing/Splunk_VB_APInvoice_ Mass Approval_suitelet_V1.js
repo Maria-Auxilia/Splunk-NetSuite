@@ -32,6 +32,15 @@
  * @Project ENHC0051452
  * @version 1.3
  */
+/**
+ * Changed logic to maintain the existing functionality due to deprecated search "Splunk Period Subsidiary Search"
+ * @author Vaibhav Srivastava
+ * @Release Date: 
+ * @Release Number : 
+ * @Project 
+ * @version 1.4
+ */ 
+ 
 var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 var reqUrl = nlapiGetContext().getSetting('SCRIPT', 'custscript_requrl');
 var finalApprover = nlapiGetContext().getSetting('SCRIPT', 'custscript_spk_finalapprover');
@@ -648,6 +657,9 @@ function SuiteList(request,response)
 					if(currentUser == invapr)
 					{
 						var period = currentRec.getFieldText('postingperiod');   // Getting the posting period
+						nlapiLogExecution('DEBUG','Test Period Name',period);
+						var periodintid = currentRec.getFieldValue('postingperiod'); //Adding Posting Period internal id as the Posting Period text can not be used as a filter in the New Saved Search "Task Item Status Search"
+						nlapiLogExecution('DEBUG','Test Period Id',periodintid);
 						var cdate1 = new Date();
 						var year = cdate1.getFullYear();
 						var tranid = currentRec.getFieldValue('tranid');
@@ -734,7 +746,7 @@ function SuiteList(request,response)
 											if(!result)
 											{
 												nlapiLogExecution('DEBUG', 'result not exist', 'null');
-												getperiodofSubsidiary(currentRec,year,period,custVbId); // calling function
+												getperiodofSubsidiary(currentRec,year,period,custVbId,periodintid); // calling function
 											}
 											else
 											{
@@ -926,50 +938,64 @@ function getperiod(rec,year,period,custVbId)
 			monthIndex = 0;
 		}
 		var periodname = monthNames[monthIndex] +' '+ year;
+		//var periodinternalid = parseInt(perintid) + parseInt(1);
 		nlapiLogExecution('DEBUG', 'periodname', periodname);
+		//nlapiLogExecution('DEBUG', 'periodinternalid', periodinternalid);
 		getperiod(rec,year,periodname,custVbId);                        
 	}             
 }
 /*This function gets the appropriate posting period depending on the role of the user*/
-function getperiodofSubsidiary(rec,year,period,custVBId)
+function getperiodofSubsidiary(rec,year,period,custVBId,perintid)
 {
 	/**** Creating search for finding the open posting period ****/
 	var istrue = 0;
 	var subsidiary = rec.getFieldValue('subsidiary');
-	nlapiLogExecution('DEBUG', 'year '+year, ' period '+ period+' subsidiary '+subsidiary);
+	nlapiLogExecution('DEBUG', 'year '+year, ' period '+ period+' subsidiary '+subsidiary+' PeriodIntid '+perintid);
 	var filter = new Array();
 	var column = new Array();
 	filter[0] = new nlobjSearchFilter('subsidiary',null,'anyof',subsidiary);
-	filter[1] = new nlobjSearchFilter('periodname','accountingperiod','is',period);
-	filter[2] = new nlobjSearchFilter('aplocked',null,'is','F');
+	filter[1] = new nlobjSearchFilter('period','null','is',perintid);
 	column[0] = new nlobjSearchColumn('internalid');
-	var result = nlapiSearchRecord(null,'customsearch_spk_periodsubsidiarysearc',filter, column);
+	var result = nlapiSearchRecord(null,'customsearch_spk_periodsubsidiarysearc_3',filter, column);
+	nlapiLogExecution('DEBUG','result length',result.length);
 	if(result) {
 		for(var x=0; x<result.length;x++) {
-			var intid = result[x];
-			var id = intid.getValue('internalid');
-			nlapiLogExecution('DEBUG', 'AccountPeriod id '+id,'result '+result.length);
+			var itemtype = result[x].getValue('itemtype');
+			nlapiLogExecution('DEBUG','Item Type',itemtype);
+			if(itemtype == "Lock A/P")
+				{
+				var APLockStatus = result[x].getValue('complete');
+				nlapiLogExecution('DEBUG','APLockStatus',APLockStatus);
+				if(APLockStatus == 'F')
+					{
+					//var intid = result[x];
+					//var id = intid.getValue('internalid');
+					//nlapiLogExecution('DEBUG', 'AccountPeriod id '+id,'result '+result.length);
 
-			var filter1 = new Array();
-			var column1 = new Array();
+					var filter1 = new Array();
+					var column1 = new Array();
 
-			filter1[0] = new nlobjSearchFilter('internalid',null,'anyof',id);
-			column1[0] = new nlobjSearchColumn('internalid');
-			var Accresult = nlapiSearchRecord('accountingperiod',null,filter1, column1);
-			if(Accresult) {
-				var accid = Accresult[0].getValue('internalid');
-				nlapiLogExecution('DEBUG', 'accid '+accid,' Accresult '+Accresult.length);
-				if(custVBId) {
-					nlapiSubmitField('customrecord_spk_vendorbill',custVBId,'custrecord_spk_vb_postingperiod',accid);
+					filter1[0] = new nlobjSearchFilter('internalid',null,'anyof',perintid);
+					column1[0] = new nlobjSearchColumn('internalid');
+					var Accresult = nlapiSearchRecord('accountingperiod',null,filter1, column1);
+					if(Accresult) {
+						var accid = Accresult[0].getValue('internalid');
+						nlapiLogExecution('DEBUG', 'accid '+accid,' Accresult '+Accresult.length);
+						if(custVBId) {
+							nlapiSubmitField('customrecord_spk_vendorbill',custVBId,'custrecord_spk_vb_postingperiod',accid);
+						}
+						rec.setFieldValue('postingperiod',accid); 	// Setting of the posting period in bill record.
+						istrue = 1;
+						}
+					}
 				}
-				rec.setFieldValue('postingperiod',accid); 	// Setting of the posting period in bill record.
-				istrue = 1;
 			}
 		}
-	}
-	if(istrue == 0) {				
+	if(istrue == 0) {			
+		
 		var txtPeriod = period.split(' ');					
 		var monthIndex = monthNames.indexOf(txtPeriod[0]);	
+		var periodinternalid = '';
 //		Added line of code logic for year captured from Posting period name due to the issue with Vendor Bill Posting for 2016 (INC0090657) ie was due to current system year	: Begin	
 		year = parseInt(txtPeriod[1]);
 		//END		
@@ -981,8 +1007,22 @@ function getperiodofSubsidiary(rec,year,period,custVBId)
 			year = parseInt(year+1);
 		}
 		var periodname = monthNames[monthIndex] +' '+ year;
-		nlapiLogExecution('DEBUG', 'periodname', periodname); 
-		getperiodofSubsidiary(rec,year,periodname,custVBId);		
+		periodinternalid = parseInt(perintid) + parseInt(1);
+		var filter2 = new Array();
+		filter2[0] = new nlobjSearchFilter('internalid',null,'is',periodinternalid);
+		var validaccountingperiod = nlapiSearchRecord('accountingperiod',null,filter2);
+		if (validaccountingperiod != null || validaccountingperiod != '')
+			{
+			nlapiLogExecution('DEBUG', 'periodname', periodname); 
+			nlapiLogExecution('DEBUG', 'periodinternalid', periodinternalid);
+			getperiodofSubsidiary(rec,year,periodname,custVBId,periodinternalid);	
+			}
+		else
+			{
+			periodinternalid = parseInt(periodinternalid) + parseInt(1);
+			nlapiLogExecution('DEBUG', 'periodinternalidelse', periodinternalid);
+			getperiodofSubsidiary(rec,year,periodname,custVBId,periodinternalid);
+			}
 	}	
 }
 
