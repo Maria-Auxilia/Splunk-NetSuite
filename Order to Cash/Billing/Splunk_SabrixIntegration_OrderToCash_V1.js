@@ -404,7 +404,7 @@ function sabrixBeforeSubmit(eventtype) {
 					throw err;
 					return false;
 				}
-				//DFCT0050827 â€“ Cybersource to charge the credit card with the tax amount on before submit successful sabrix response - Begin
+				//DFCT0050827 – Cybersource to charge the credit card with the tax amount on before submit successful sabrix response - Begin
 				if(response.getCode() == '200'){
 					var successstr = response.getBody();
 					nlapiLogExecution('DEBUG','successstr',successstr);
@@ -440,7 +440,7 @@ function sabrixBeforeSubmit(eventtype) {
 						}
 					}
 				}
-				//DFCT0050827 â€“ End
+				//DFCT0050827 – End
 			}
 		}
 	}
@@ -1021,6 +1021,16 @@ function changeinFields(currRecord) {
 				
 				var Amount = currRecord.getLineItemValue('item','amount',n);
 				var oldAmount = oldrecord.getLineItemValue('item','amount',n);
+				var SfdcunitCost = currRecord.getLineItemValue('item','custcol_spk_sfdc_unit_cost',n);
+				var Qty = currRecord.getLineItemValue('item','quantity',n);
+				var SfdcoldUcost = oldrecord.getLineItemValue('item','custcol_spk_sfdc_unit_cost',n);
+				var oldQty = oldrecord.getLineItemValue('item','quantity',n);
+				if(SfdcunitCost) {
+					Amount = parseFloat(SfdcunitCost*Qty);
+				}
+				if(SfdcoldUcost) {
+					oldAmount = parseFloat(SfdcoldUcost*oldQty);;
+				}
 				if(Amount != oldAmount) { return flag = 1; }
 				
 				//nlapiLogExecution('DEBUG','ItemCode :'+ItemCode,' CommodityCode :'+CommodityCode+ ' Amount :'+Amount+ ' BundleFlag :'+BundleFlag+' BaseBundleCode :'+BaseBundleCode);
